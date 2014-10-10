@@ -34,7 +34,9 @@ RUN apt-get update && apt-get install -y --force-yes \
         python-setuptools \
         python-support \
         python-simplejson \
-        python-pip 
+        python-pip \
+        python-matplotlib \
+        python-matplotlib-data
 
 
 # ---- Install Debian building packages and dependencies ------------
