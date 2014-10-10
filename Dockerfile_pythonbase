@@ -48,6 +48,10 @@ RUN apt-get update && apt-get install -y --force-yes \
         python-stdeb
 
 
+# ---- Install Python pip dependencies ------------
+RUN pip install -Iv Flask==0.10.1 && pip install -Iv eventlet==0.14.0
+
+
 # ---- Setting the working directory by default ------------
 WORKDIR /usr/local/src/source
 
