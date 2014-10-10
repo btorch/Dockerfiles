@@ -23,50 +23,38 @@ FROM ubuntu:10.04
 MAINTAINER btorch <btorch@gmail.com>
 ENV PS1='[\u@\h ]\$ '
 
-# ---- Install any additional ubuntu packages ------------
+# ---- Install Python packages ------------
 RUN apt-get update && apt-get install -y --force-yes \
-	curl \
-	libjs-jquery \
 	python \
+	python-dev \
 	python-all \
 	python-all-dev \
-	python-dev \
 	python-docutils \
-	python-jinja2 \
 	python-pygments \
 	python-setuptools \
 	python-support \
 	python-pip 
 
 
-# ---- Install deb building packages and dependencies ------------
+# ---- Install Debian building packages and dependencies ------------
 RUN apt-get update && apt-get install -y --force-yes \
 	build-essential \
 	cdbs \
 	fakeroot \
 	debhelper \
 	devscripts \
-	dpkg-dev 
+	dpkg-dev \
+	python-stdeb
 
 
-# ---- Install python-stdeb ------------
-RUN pip install stdeb
-
-
-# ---- install python-xfs build dependencies ------------
+# ---- Install python-xfs build dependencies ------------
 RUN apt-get update && apt-get install -y --force-yes \
 	xfslibs-dev \
 	xfsprogs 
 
 
-ADD source /usr/local/src/source/
-
+# ---- Setting the working directory by default ------------
 WORKDIR /usr/local/src/source
-
-RUN echo -e "[DEFAULT]\nXS-Python-Version: >= 2.6" > extra-stdeb.cfg \ 
-	&& python setup.py --command-packages=stdeb.command sdist_dsc -x extra-stdeb.cfg bdist_deb \
-	&& ls -la deb_dist
-
 
 # overwrite this with 'CMD []' in a dependent Dockerfile
 #CMD ["/bin/bash"]

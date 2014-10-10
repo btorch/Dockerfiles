@@ -21,50 +21,40 @@ FROM ubuntu:10.04
 
 
 MAINTAINER btorch <btorch@gmail.com>
+ENV PS1='[\u@\h ]\$ '
 
-# ---- Install any additional ubuntu packages ------------
+# ---- Install Python packages ------------
 RUN apt-get update && apt-get install -y --force-yes \
-	curl \
-	libjs-jquery \
-	python \
-	python-all \
-	python-all-dev \
-	python-dev \
-	python-docutils \
-	python-jinja2 \
-	python-pygments \
-	python-setuptools \
-	python-support \
-	python-pip \
-	python-stdeb
+        python \
+        python-dev \
+        python-all \
+        python-all-dev \
+        python-docutils \
+        python-pygments \
+        python-setuptools \
+        python-support \
+        python-pip 
 
 
-# ---- Install deb building packages and dependencies ------------
+# ---- Install Debian building packages and dependencies ------------
 RUN apt-get update && apt-get install -y --force-yes \
-	build-essential \
-	cdbs \
-	fakeroot \
-	debhelper \
-	devscripts \
-	dpkg-dev 
+        build-essential \
+        cdbs \
+        fakeroot \
+        debhelper \
+        devscripts \
+        dpkg-dev \
+        python-stdeb
 
 
-# ---- install swiftscout build dependencies ------------
+# ---- Install swiftscout build dependencies ------------
 RUN apt-get update && apt-get install -y --force-yes python-simplejson 
 RUN pip install -Iv eventlet==0.14.0	
 
-# ---- Add application source from context to image ------------
-ADD swiftscout /usr/local/src/source/
 
-# ---- Start stdeb packaging ------------
+# ---- Setting the working directory by default ------------
 WORKDIR /usr/local/src/source
-RUN echo "[DEFAULT]" > extra-stdeb.cfg
-RUN echo "XS-Python-Version: >= 2.6" >> extra-stdeb.cfg 
-RUN echo "Suite: lucid-development" >> extra-stdeb.cfg
-
-RUN python setup.py --command-packages=stdeb.command sdist_dsc -x extra-stdeb.cfg bdist_deb 
 
 # overwrite this with 'CMD []' in a dependent Dockerfile
-#ENV PS1='[\u@\h ]\$ '
 #CMD ["/bin/bash"]
 
