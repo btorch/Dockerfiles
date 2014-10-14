@@ -1,0 +1,62 @@
+# Build this docker image with:
+#
+#     sudo docker build .
+#
+# Take note of the <image_id>, which will be the output above in the
+# form "Successfully built <image_id>". Now, run the IPython web
+# notebook with:
+#
+#     sudo docker run -p 8889:8889 <image_id>
+#
+# This will spawn a webserver on port 8889. Go there and follow the
+# instructions.
+#
+# The cache for RUN instructions can be invalidated by using 
+# the --no-cache flag, for example docker build --no-cache
+#
+ 
+FROM ubuntu:10.04
+#precise FROM ubuntu:12.04
+#trusty FROM ubuntu:14.04
+
+
+MAINTAINER btorch <btorch@gmail.com>
+ENV PS1='[\u@\h ]\$ '
+
+# ---- Install Python packages ------------
+RUN apt-get update && apt-get install -y --force-yes \
+        python \
+        python-dev \
+        python-all \
+        python-all-dev \
+        python-docutils \
+        python-pygments \
+        python-setuptools \
+        python-support \
+        python-simplejson \
+        python-pip \
+        python-matplotlib \
+        python-matplotlib-data
+
+
+# ---- Install Debian building packages and dependencies ------------
+RUN apt-get update && apt-get install -y --force-yes \
+        build-essential \
+        cdbs \
+        fakeroot \
+        debhelper \
+        devscripts \
+        dpkg-dev \
+        python-stdeb
+
+
+# ---- Install Python pip dependencies ------------
+RUN pip install -Iv greenlet==0.3.1
+
+
+# ---- Setting the working directory by default ------------
+WORKDIR /usr/local/src/source
+
+# overwrite this with 'CMD []' in a dependent Dockerfile
+#CMD ["/bin/bash"]
+
