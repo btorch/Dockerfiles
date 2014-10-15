@@ -52,6 +52,10 @@ RUN apt-get update && apt-get install -y --force-yes python-simplejson
 RUN pip install -Iv eventlet==0.14.0	
 
 
+# ---- Update apt file cache ------------
+RUN apt-file update 
+
+
 # ---- Setting the working directory by default ------------
 WORKDIR /usr/local/src/source
 

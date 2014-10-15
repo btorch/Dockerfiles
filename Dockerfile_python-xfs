@@ -53,6 +53,10 @@ RUN apt-get update && apt-get install -y --force-yes \
 	xfsprogs 
 
 
+# ---- Update apt file cache ------------
+RUN apt-file update 
+
+
 # ---- Setting the working directory by default ------------
 WORKDIR /usr/local/src/source
 

@@ -54,6 +54,10 @@ RUN apt-get update && apt-get install -y --force-yes \
 RUN pip install -Iv greenlet==0.3.1
 
 
+# ---- Update apt file cache ------------
+RUN apt-file update 
+
+
 # ---- Setting the working directory by default ------------
 WORKDIR /usr/local/src/source
 
