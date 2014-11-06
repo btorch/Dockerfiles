@@ -51,7 +51,7 @@ RUN apt-get update && apt-get install -y --force-yes \
 
 
 # ---- Install Python pip dependencies ------------
-RUN pip install -Iv Flask==0.10.1 && pip install -Iv eventlet==0.14.0
+RUN pip install -Iv Flask==0.10.1 greenlet==0.3.1 eventlet==0.14.0
 
 
 # ---- Update apt file cache ------------
